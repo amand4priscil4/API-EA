@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+
+# Environment variables (senhas, tokens, etc.)
+.env
+.env.local
+
+# Build files
+build/
+dist/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arduino IDE temp files
+*.tmp
+*.bak
