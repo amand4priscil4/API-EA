@@ -7,6 +7,7 @@ const cors = require('cors');
 const robotRoutes = require('./routes/robotRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const aiRoutes = require('./routes/aiRoutes');
+const geminiRoutes = require('./routes/geminiRoutes'); // 🤖 Nova rota Gemini
 const setupRobotSocket = require('./socket/robotSocket');
 const setupChatSocket = require('./socket/chatSocket');
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 app.use('/api/robot', robotRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/gemini', geminiRoutes); // 🤖 Adicionado Gemini
 
 // Rota de health check
 app.get('/health', (req, res) => {
@@ -59,6 +61,7 @@ app.get('/', (req, res) => {
       robot: '/api/robot/*',
       chat: '/api/chat/*',
       ai: '/api/ai/*',
+      gemini: '/api/gemini/*', // 🤖 Novo endpoint
       websockets: {
         robot: '/robot',
         chat: '/chat'
@@ -84,6 +87,16 @@ app.get('/', (req, res) => {
         'Limpar histórico': 'DELETE /api/ai/history/:sessionId',
         'Status IA': 'GET /api/ai/status',
         'Teste IA': 'POST /api/ai/test'
+      },
+      gemini: { // 🤖 Documentação Gemini
+        'Chat Gemini': 'POST /api/gemini/chat',
+        'Histórico': 'GET /api/gemini/history/:sessionId',
+        'Limpar histórico': 'DELETE /api/gemini/history/:sessionId',
+        'Teste conexão': 'GET /api/gemini/test',
+        'Status': 'GET /api/gemini/status',
+        'Gerar código': 'POST /api/gemini/generate-code',
+        'Conversas ativas': 'GET /api/gemini/conversations',
+        'Health check': 'GET /api/gemini/health'
       }
     }
   });
@@ -98,7 +111,7 @@ app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
     message: 'Endpoint não encontrado',
-    availableEndpoints: ['/api/robot/*', '/health', '/']
+    availableEndpoints: ['/api/robot/*', '/api/chat/*', '/api/ai/*', '/api/gemini/*', '/health', '/']
   });
 });
 
@@ -165,6 +178,7 @@ server.listen(PORT, () => {
 ║  🤖 Robot API: /api/robot/*                ║
 ║  💬 Chat Educacional: /api/chat/*          ║
 ║  🧠 Chat IA: /api/ai/*                     ║
+║  🤖 Gemini AI: /api/gemini/*               ║
 ╚════════════════════════════════════════════╝
   `);
 
@@ -189,5 +203,15 @@ server.listen(PORT, () => {
   console.log('• DELETE /api/ai/history/:id     - Limpar histórico');
   console.log('• GET    /api/ai/status          - Status da IA');
   console.log('• POST   /api/ai/test            - Teste da IA');
+  console.log('');
+  console.log('🤖 GEMINI AI:'); // 🤖 Nova seção
+  console.log('• POST   /api/gemini/chat        - Chat com Gemini (crianças)');
+  console.log('• GET    /api/gemini/history/:id - Histórico Gemini');
+  console.log('• DELETE /api/gemini/history/:id - Limpar histórico Gemini');
+  console.log('• GET    /api/gemini/test        - Teste conexão Gemini');
+  console.log('• GET    /api/gemini/status      - Status Gemini');
+  console.log('• POST   /api/gemini/generate-code - Gerar código Arduino');
+  console.log('• GET    /api/gemini/conversations - Conversas ativas');
+  console.log('• GET    /api/gemini/health      - Health check Gemini');
   console.log('\nPressione Ctrl+C para parar o servidor');
 });
