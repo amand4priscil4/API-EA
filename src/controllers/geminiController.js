@@ -6,7 +6,7 @@ const axios = require('axios');
 const Joi = require('joi');
 
 // Configurações do Gemini
-const GEMINI_API_KEY = 'AIzaSyAhjxzyjkWzoGVOiHpk84lWBTJ_DyEKSt0';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyAhjxzyjkWzoGVOiHpk84lWBTJ_DyEKSt0';
 const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
 const GEMINI_MODEL = 'gemini-1.5-flash';
 
